@@ -10,12 +10,10 @@ botaoAdicionar.addEventListener("click", function (event) {
 
     var pacienteTr = montaTr(paciente);
 
-    var erro = validaPaciente(paciente);
-
-    if (erro.length > 0) {
-        console.log("Paciente inválido!");
-        var mensagemErro = document.querySelector("#mensagem-erro");
-        mensagemErro.textContent = erro;
+    var erros = validaPaciente(paciente);
+    console.log(erros);
+    if (erros.length > 0) {
+        exibeMensagensDeErro(erros);
         return;
     }
 
@@ -27,6 +25,17 @@ botaoAdicionar.addEventListener("click", function (event) {
     form.reset();
 
 });
+
+function exibeMensagensDeErro(erros) {
+    var ul = document.querySelector("#mensagens-erro");
+    erros.forEach(function (erro) {
+        var li = document.createElement("li");
+        li.textContent = erro;
+        ul.appendChild(li);
+    });
+}
+
+
 
 function obtemPacienteDoFormulario(form) {
 
@@ -69,10 +78,10 @@ function validaPaciente(paciente) {
     }
 
     if (!validaAltura(paciente.altura)) {
-
-    } else {
         erros.push("Altura é inválida!");
+
     }
+
 
     return erros;
 
